@@ -1,0 +1,23 @@
+﻿@model List<BridgeModel>
+
+<h1>Liste des stations</h1>
+
+@{
+    List<BridgeModel> bridges = Model;
+    bridges.Sort((a, b) => a.closing_date.CompareTo(b.closing_date));
+    BridgeModel boat = null;
+
+    foreach (var bridgeModel in bridges)
+    {
+        var dateNow = Convert.ToDateTime(DateTime.Now.ToString());
+        var date = Convert.ToDateTime(bridgeModel.closing_date);
+        if (dateNow < date)
+        {
+            boat = bridgeModel;
+            break;
+        }
+    }
+    
+}
+<p> @boat.boat_name </p>
+
