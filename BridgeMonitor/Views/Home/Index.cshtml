@@ -17,7 +17,22 @@
             break;
         }
     }
-    
+    System.TimeSpan diffi = boat.reopening_date.Subtract(boat.closing_date);
+
+    string message = null;
+    if ((boat.closing_date.Hour >= 7 && boat.closing_date.Hour <= 9) || (boat.closing_date.Hour >= 17 && boat.closing_date.Hour <= 19))
+    {
+       message = "Elevé";
+    }
+    else
+    {
+        message = "Faible";
+    }
 }
-<p> @boat.boat_name </p>
+datetime diffi = boat.reopening_date.Subtract(boat.closing_date);
+<p> Nom du bateau ou de l'évenement: @boat.boat_name </p>
+<p> Date fermeture: @boat.closing_date.ToString("dddd, dd MMMM yyyy HH:mm:ss") </p>
+<p> Date ouverture: @boat.reopening_date.ToString("dddd, dd MMMM yyyy HH:mm:ss") </p>
+<p> Temps de fermeture: @diffi </p>
+<p> Risque de bouchons : @message </p>
 
