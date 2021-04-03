@@ -1,6 +1,74 @@
-@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+@model List<BridgeModel>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<h1>Liste des fermetures</h1>
+
+@{
+    List<BridgeModel> bat = Model;
+    bat.Sort((a, b) => a.closing_date.CompareTo(b.closing_date));
+    BridgeModel boat = null;
+    List<BridgeModel> past = new List<BridgeModel>();
+    List<BridgeModel> futur = new List<BridgeModel>();
+
+    foreach (var bridgeModel in bat)
+    {
+        var dateNow = Convert.ToDateTime(DateTime.Now.ToString());
+        var date = Convert.ToDateTime(bridgeModel.closing_date);
+        if (dateNow < date)
+        {
+            boat = bridgeModel;
+            futur.Add(boat);
+            
+        }
+        else
+        {
+            boat = bridgeModel;
+            past.Add(boat);
+        }
+    }
+}
+
+<h2>Fermetures futur</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom du bateau ou de l'evenement:</th>
+            <th>Date fermeture:</th>
+            <th>Temps de la fermeture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bateau in futur)
+        {
+            System.TimeSpan diffi = bateau.reopening_date.Subtract(bateau.closing_date);
+            <tr>
+                <td>@bateau.boat_name</td>
+                <td>@bateau.closing_date</td>
+                <td>@diffi</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Fermetures past</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom du bateau ou de l'evenement:</th>
+            <th>Date fermeture:</th>
+            <th>Temps de la fermeture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bateau in past)
+        {
+            System.TimeSpan diffi = bateau.reopening_date.Subtract(bateau.closing_date);
+            <tr>
+                <td>@bateau.boat_name</td>
+                <td>@bateau.closing_date</td>
+                <td>@diffi</td>
+            </tr>
+        }
+    </tbody>
+</table>
